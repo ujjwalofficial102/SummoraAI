@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   variable: "--font-sans",
@@ -30,6 +31,17 @@ export default function RootLayout({
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
+          <Toaster
+            position="top-center"
+            richColors
+            toastOptions={{
+              style: {
+                background: "#fff1f5", // Tailwind gray-900
+                color: "#881337",
+                border: "1px solid #fecdd3",
+              },
+            }}
+          />
         </body>
       </html>
     </ClerkProvider>
