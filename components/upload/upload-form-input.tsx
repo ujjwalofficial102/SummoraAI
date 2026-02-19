@@ -1,12 +1,18 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 
 interface UploadFormInputProps {
   onSubmit: (e: React.SyntheticEvent<HTMLFormElement>) => void;
+  isLoading: boolean;
 }
 
-export default function UploadFormInput({ onSubmit }: UploadFormInputProps) {
+export default function UploadFormInput({
+  onSubmit,
+  isLoading,
+}: UploadFormInputProps) {
   return (
     <div>
       <form className="flex flex-col gap-6" onSubmit={onSubmit}>
@@ -17,9 +23,19 @@ export default function UploadFormInput({ onSubmit }: UploadFormInputProps) {
             name="file"
             accept="application/pdf"
             required
-            className=""
+            className={cn(isLoading && "cursor-not-allowed opacity-50")}
+            disabled={isLoading}
           />
-          <Button>Upload your PDF</Button>
+          <Button disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Processing...
+              </>
+            ) : (
+              "Upload your PDF"
+            )}
+          </Button>
         </div>
       </form>
     </div>
