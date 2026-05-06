@@ -3,6 +3,7 @@ import EmptySummaryState from "@/components/summaries/empty-summary-state";
 import SummaryCard from "@/components/summaries/summary-card";
 import { Button } from "@/components/ui/button";
 import { getSummaries } from "@/lib/summaries";
+import { hasReachedUploadLimit } from "@/lib/user";
 import { currentUser } from "@clerk/nextjs/server";
 import { ArrowRight, Plus } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +17,8 @@ export default async function DashboardPage() {
   const summaries = await getSummaries(userId);
   // console.log(summaries[0]);
 
-  const uploadLimit = 6;
+  const { hasReachedLimit, uploadLimit } = await hasReachedUploadLimit(userId);
+
   return (
     <main className="min-h-screen">
       <BgGradient className="from-emerald-200 via-teal-200 to-cyan-200" />
@@ -31,7 +33,8 @@ export default async function DashboardPage() {
                 Transform your PDFs into concise, actionable insights
               </p>
             </div>
-            <div>
+
+            {!hasReachedLimit && (
               <Link href="/upload">
                 <Button
                   variant={"link"}
@@ -41,30 +44,31 @@ export default async function DashboardPage() {
                   New Summary
                 </Button>
               </Link>
-            </div>
+            )}
           </div>
-          <div className="mb-6">
-            <div className="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-lg">
-              <p className="text-sm">
-                You've reached the limit of {uploadLimit} uploads on the Basic
-                plan.
-                <Link
-                  href="/#pricing"
-                  className="text-rose-800 font-medium underline underline-offset-4 inline-flex items-center ml-1"
-                >
-                  Click here to upgrade to pro
-                  <ArrowRight className="w-4 h-4 ml-1 inline-block" />
-                </Link>{" "}
-                for unlimited uploads.
-              </p>
+          {hasReachedLimit && (
+            <div className="mb-6">
+              <div className="bg-rose-50 border border-rose-200 text-rose-800 p-4 rounded-lg">
+                <p className="text-sm">
+                  You've reached the limit of {uploadLimit} uploads on the Free
+                  plan.
+                  <Link
+                    href="/#pricing"
+                    className="text-rose-800 font-medium underline underline-offset-4 inline-flex items-center ml-1"
+                  >
+                    Click here to upgrade to pro
+                    <ArrowRight className="w-4 h-4 ml-1 inline-block" />
+                  </Link>{" "}
+                  for unlimited uploads.
+                </p>
+              </div>
             </div>
-          </div>
-
-          {summaries.length === 0 ? (
+          )}
+          {summaries?.length === 0 ? (
             <EmptySummaryState />
           ) : (
             <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3 sm:px-0">
-              {summaries.map((summary, index) => (
+              {summaries?.map((summary, index) => (
                 <SummaryCard key={index} summary={summary} />
               ))}
             </div>
