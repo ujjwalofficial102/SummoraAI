@@ -9,12 +9,13 @@ import {
 } from "@/actions/upload-actions";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingSkeleton from "./loading-skeleton";
 
 const UploadFormSchema = z.object({
   file: z
     .instanceof(File, { message: "Invalid file" })
     .refine(
-      (file) => file.size <= 20 * 1024 * 1024,
+      (file) => file.size <= 50 * 1024 * 1024,
       "File size must be less than 20MB"
     )
     .refine(
@@ -119,7 +120,37 @@ export default function UploadForm() {
   };
   return (
     <div className="flex flex-col gap-8 w-full max-w-2xl mx-auto">
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center" aria-hidden="true">
+          <div className="w-full border-t border-gray-200 dark:border-gray-800" />
+        </div>
+        <div className="relative flex justify-center">
+          <span className="bg-background px-3 text-muted-foreground text-sm">
+            Upload PDF
+          </span>
+        </div>
+      </div>
       <UploadFormInput isLoading={isLoading} onSubmit={handleSubmit} />
+      {isLoading && (
+        <>
+          <div className="relative">
+            <div
+              className="absolute inset-0 flex items-center"
+              aria-hidden="true"
+            >
+              <div className="w-full border-t border-gray-200 dark:border-gray-800" />
+            </div>
+
+            <div className="relative flex justify-center">
+              <span className="bg-background px-3 text-muted-foreground text-sm">
+                Processing
+              </span>
+            </div>
+          </div>
+
+          <LoadingSkeleton />
+        </>
+      )}
     </div>
   );
 }
