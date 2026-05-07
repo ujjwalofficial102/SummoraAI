@@ -6,7 +6,7 @@ export const pricingPlans = [
     price: 0,
     description: "For individuals getting started",
     items: [
-      "5 PDF summaries per month",
+      "10 PDF summaries per month",
       "Standard processing speed",
       "Email support",
     ],
