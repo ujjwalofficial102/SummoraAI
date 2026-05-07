@@ -31,11 +31,11 @@ export default function UploadForm() {
 
   const { startUpload, routeConfig } = useUploadThing("pdfUploader", {
     onUploadBegin: (fileName) => {
-      console.log("upload has begun for", fileName);
+      // console.log("upload has begun for", fileName);
       toastId = toast.loading(`Uploading ${fileName}`);
     },
     onClientUploadComplete: () => {
-      console.log("uploaded successfully!");
+      // console.log("uploaded successfully!");
       toast.dismiss(toastId);
     },
     onUploadError: (err) => {
@@ -94,7 +94,7 @@ export default function UploadForm() {
           description: "Hang tight! we are saving your summary! ✨",
         });
         setIsLoading(false);
-        console.log("result", result);
+        // console.log("result", result);
 
         const storedResult = await storePdfSummaryAction({
           fileUrl: resp[0].serverData.fileUrl,
@@ -108,7 +108,7 @@ export default function UploadForm() {
               "Your PDF has been successfully summarized and saved! ✨",
           });
         }
-        console.log("storedResult", storedResult);
+        // console.log("storedResult", storedResult);
         router.push(`/summaries/${storedResult.savedSummary.id}`);
       }
     } catch (error) {

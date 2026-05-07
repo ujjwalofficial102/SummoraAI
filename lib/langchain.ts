@@ -1,7 +1,7 @@
 import { WebPDFLoader } from "@langchain/community/document_loaders/web/pdf";
 
 export async function fetchAndExtractPdfText(fileUrl: string) {
-  console.log("Fetching URL:", fileUrl);
+  // console.log("Fetching URL:", fileUrl);
   const response = await fetch(fileUrl);
   const blob = await response.blob();
 
