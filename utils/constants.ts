@@ -28,11 +28,11 @@ export const pricingPlans = [
     paymentLink:
       process.env.NODE_ENV === "development"
         ? "https://buy.stripe.com/test_8x23coeFR2NA3uPefO8Zq03"
-        : "",
+        : "https://buy.stripe.com/test_4gMdR21T573Q2qLfjS8Zq05",
     priceId:
       process.env.NODE_ENV === "development"
         ? "price_1TTozi5Zc7SLydmv8Ojm0672"
-        : "",
+        : "price_1TTozi5Zc7SLydmv8Ojm0672",
   },
 ];
 
