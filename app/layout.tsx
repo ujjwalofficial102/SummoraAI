@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "Summora AI-Powered PDF Summarizer",
   description:
     "Save hours of reading time with SummoraAI, the AI-powered PDF summarizer that delivers concise and accurate summaries in seconds.",
+  icons: {
+    icon: "/favicon.ico",
+  },
   openGraph: {
     images: [
       {
