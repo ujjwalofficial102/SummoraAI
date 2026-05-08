@@ -2,6 +2,8 @@
 
 SummoraAI is a powerful web application that turns your lengthy PDF documents into concise, engaging, and emoji-rich summaries – like a visual reel of your content. Built with cutting-edge technologies including **Next.js 15**, **Gemini AI**, **Clerk**, **Langchain**, and more.
 
+🔗 **Live Demo:** [https://summora-ai-green.vercel.app](https://summora-ai-green.vercel.app)
+
 # Home Page
 
 ![Home Page](./images/home.png)
