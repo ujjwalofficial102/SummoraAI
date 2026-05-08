@@ -8,6 +8,8 @@ import { ArrowRight, CheckIcon } from "lucide-react";
 import Link from "next/link";
 import { MotionDiv, MotionSection } from "../common/motion-wrapper";
 import { Variants } from "motion/react";
+import { hasActivePlan } from "@/lib/user";
+import { currentUser } from "@clerk/nextjs/server";
 
 type PriceType = {
   name: string;
@@ -28,7 +30,7 @@ const listVariant: Variants = {
   },
 };
 
-const PricingCard = ({
+const PricingCard = async ({
   name,
   price,
   description,
@@ -36,6 +38,9 @@ const PricingCard = ({
   id,
   paymentLink,
 }: PriceType) => {
+  const user = await currentUser();
+  const userEmail = user?.emailAddresses[0].emailAddress;
+  const hasPlan = await hasActivePlan(userEmail || "");
   return (
     <MotionDiv
       variants={listVariant}
@@ -80,7 +85,7 @@ const PricingCard = ({
           className="space-y-2 flex justify-center w-full"
         >
           <Link
-            href={price === 0 ? "" : paymentLink}
+            href={price === 0 || hasPlan ? "" : paymentLink}
             className={cn(
               "w-full rounded-full flex items-center justify-center gap-2 border-2 py-2 transition-all duration-300",
               price === 0
@@ -89,8 +94,8 @@ const PricingCard = ({
               id === "pro" ? "border-rose-900" : ""
             )}
           >
-            {price === 0 ? "Active" : "Buy Now"}
-            {price !== 0 && <ArrowRight size={18} />}
+            {price === 0 || hasPlan ? "Active" : "Buy Now"}
+            {price !== 0 && !hasPlan && <ArrowRight size={18} />}
           </Link>
         </MotionDiv>
       </div>
